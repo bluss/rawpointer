@@ -4,7 +4,6 @@ matrix:
   include:
     - rust: 1.26.0
     - rust: stable
-    - rust: beta
     - rust: nightly
 branches:
   only:
@@ -13,4 +12,4 @@ script:
   - |
       cargo build -v --features "$FEATURES" &&
       cargo test -v --features "$FEATURES" &&
-      cargo test -v --release --features "$FEATURES" &&
+      cargo test -v --release --features "$FEATURES"
