@@ -18,6 +18,12 @@ __ https://docs.rs/rawpointer/
 Recent Changes
 --------------
 
+- 0.2.0
+
+  - Add support for NonNull<T>
+  - Added more documentation and an example
+  - Now requires Rust 1.26 or later
+
 - 0.1.0
 
   - Initial release

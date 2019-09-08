@@ -1,11 +1,11 @@
 [package]
 name = "rawpointer"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["bluss"]
 license = "MIT/Apache-2.0"
 
 description = """
-Extra methods for raw pointers.
+Extra methods for raw pointers and `NonNull<T>`.
 
 For example `.post_inc()` and `.pre_dec()` (c.f. `ptr++` and `--ptr`) and
 `ptrdistance`.
@@ -15,3 +15,6 @@ repository = "https://github.com/bluss/rawpointer/"
 documentation = "https://docs.rs/rawpointer/"
 
 keywords = ["no_std", "raw", "pointer"]
+
+[package.metadata.release]
+no-dev-version = true
