@@ -25,14 +25,14 @@
 //!   - For `p++` use [`p.post_inc()`](PointerExt::post_inc).
 //!   - For `++p` use [`p.pre_inc()`](PointerExt::pre_inc).
 //!   - For `p--` use [`p.post_dec()`](PointerExt::post_dec).
-//!   - For `--p` use [`p.pre_dec()`](PointerExt::pre_inc).
+//!   - For `--p` use [`p.pre_dec()`](PointerExt::pre_dec).
 //!
 //! ```rust
 //! use rawpointer::PointerExt;
 //!
 //! unsafe {
 //!     // In this example:
-//!     // Use .ptr_inc() to iterate and overwrite the first four
+//!     // Use .post_inc() to iterate and overwrite the first four
 //!     // elements of the array.
 //!
 //!     let mut xs = [0; 16];
@@ -46,6 +46,10 @@
 //!     assert_eq!(&xs[..8], &[0, 1, 2, 3, 0, 0, 0, 0]);
 //! }
 //! ```
+//!
+//! ## Safety
+//!
+//! See the Rust [core::ptr] documentation for more information.
 //!
 //! ## Rust Version
 //!
