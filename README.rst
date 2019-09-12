@@ -18,6 +18,10 @@ __ https://docs.rs/rawpointer/
 Recent Changes
 --------------
 
+- 0.2.1
+
+  - Documentation and test changes only
+
 - 0.2.0
 
   - Add support for NonNull<T>
