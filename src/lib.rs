@@ -223,4 +223,24 @@ mod tests {
             assert_eq!(&xs[..8], &[0, 1, 2, 3, 0, 0, 0, 0]);
         }
     }
+
+    #[test]
+    fn nonnull_sub() {
+        unsafe {
+            // Test NonNull<T> .sub(1) iteration and equivalence to *mut T
+            let mut xs = [0; 16];
+            let mut ptr = xs.as_mut_ptr().add(xs.len());
+            let nptr = NonNull::new(xs.as_mut_ptr()).unwrap();
+            let mut nend = nptr.add(xs.len());
+            let mut i = 0;
+            while nptr != nend {
+                nend = nend.sub(1);
+                ptr = ptr.sub(1);
+                assert_eq!(nend.as_ptr(), ptr);
+                *nend.as_ptr() = i;
+                i += 1;
+            }
+            assert_eq!(&xs[..8], &[15, 14, 13, 12, 11, 10, 9, 8]);
+        }
+    }
 }
