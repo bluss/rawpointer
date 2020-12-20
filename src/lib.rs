@@ -57,6 +57,8 @@
 
 use core::mem::size_of;
 use core::ptr::NonNull;
+#[cfg(feature="send-sync-ptr")]
+use core::fmt;
 
 /// Return the number of elements of `T` from `start` to `end`.<br>
 /// Return the arithmetic difference if `T` is zero size.
@@ -188,6 +190,108 @@ impl<T> PointerExt for NonNull<T> {
     }
 }
 
+#[cfg(feature="send-sync-ptr")]
+/// An unconditionally Send and Sync raw pointer wrapper,
+/// that supports the pointer arithmetic methods.
+///
+/// # Safety
+///
+/// The caller can only create this wrapper in an unsafe block,
+/// to promise to only use it in a way that is thread safe.
+#[repr(transparent)]
+pub struct SendSyncPtr<T> { ptr: *const T }
+
+#[cfg(feature="send-sync-ptr")]
+unsafe impl<T> Send for SendSyncPtr<T> { }
+#[cfg(feature="send-sync-ptr")]
+unsafe impl<T> Sync for SendSyncPtr<T> { }
+
+#[cfg(feature="send-sync-ptr")]
+#[allow(non_snake_case)]
+#[inline]
+pub unsafe fn SendSyncPtr<T>(ptr: *const T) -> SendSyncPtr<T> {
+    SendSyncPtr { ptr }
+}
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> SendSyncPtr<T> {
+    #[inline(always)]
+    pub fn ptr(self) -> *const T { self.ptr }
+}
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> Copy for SendSyncPtr<T> { }
+#[cfg(feature="send-sync-ptr")]
+impl<T> Clone for SendSyncPtr<T> {
+    fn clone(&self) -> Self { *self }
+}
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> PointerExt for SendSyncPtr<T> {
+    #[inline(always)]
+    unsafe fn offset(self, i: isize) -> Self {
+        SendSyncPtr(self.ptr.offset(i))
+    }
+}
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> fmt::Debug for SendSyncPtr<T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.ptr.fmt(f)
+    }
+}
+
+#[cfg(feature="send-sync-ptr")]
+/// An unconditionally Send and Sync raw pointer wrapper,
+/// that supports the pointer arithmetic methods.
+///
+/// # Safety
+///
+/// The caller can only create this wrapper in an unsafe block,
+/// to promise to only use it in a way that is thread safe.
+#[repr(transparent)]
+pub struct SendSyncPtrMut<T> { ptr: *mut T }
+
+#[cfg(feature="send-sync-ptr")]
+unsafe impl<T> Sync for SendSyncPtrMut<T> { }
+#[cfg(feature="send-sync-ptr")]
+unsafe impl<T> Send for SendSyncPtrMut<T> { }
+
+#[cfg(feature="send-sync-ptr")]
+#[allow(non_snake_case)]
+#[inline]
+pub unsafe fn SendSyncPtrMut<T>(ptr: *mut T) -> SendSyncPtrMut<T> {
+    SendSyncPtrMut { ptr }
+}
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> SendSyncPtrMut<T> {
+    #[inline(always)]
+    pub fn ptr(self) -> *mut T { self.ptr }
+}
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> Copy for SendSyncPtrMut<T> { }
+#[cfg(feature="send-sync-ptr")]
+impl<T> Clone for SendSyncPtrMut<T> {
+    fn clone(&self) -> Self { *self }
+}
+
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> PointerExt for SendSyncPtrMut<T> {
+    #[inline(always)]
+    unsafe fn offset(self, i: isize) -> Self {
+        SendSyncPtrMut(self.ptr.offset(i))
+    }
+}
+
+#[cfg(feature="send-sync-ptr")]
+impl<T> fmt::Debug for SendSyncPtrMut<T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.ptr.fmt(f)
+    }
+}
 
 #[cfg(test)]
 mod tests {

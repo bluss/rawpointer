@@ -16,5 +16,8 @@ documentation = "https://docs.rs/rawpointer/"
 
 keywords = ["no_std", "raw", "pointer"]
 
+[features]
+send-sync-ptr = []
+
 [package.metadata.release]
 no-dev-version = true
